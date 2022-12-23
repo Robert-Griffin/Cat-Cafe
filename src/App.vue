@@ -1,18 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <section>
+    <div>
+      Count<div>
+        {{ store.count }}
+      </div>
+      <button @click="handleClick">Increment</button>
+    </div>
+  </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+import { useCounterStore } from './store'
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-})
+const store = useCounterStore()
+const handleClick = () => {
+  store.getTest()
+}
 </script>
 
 <style>
