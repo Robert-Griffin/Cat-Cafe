@@ -7,15 +7,17 @@
       <button @click="handleClick">Increment</button>
     </div>
   </section>
+  <NavBar />
+  <RouterView/>
 </template>
 
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import { useCounterStore } from './store'
+import { useGlobalStore } from './store/GlobalStore'
+import NavBar from './components/NavBar.vue'
 
-const store = useCounterStore()
+const store = useGlobalStore()
 const handleClick = () => {
-  store.getTest()
+  store.getCats()
 }
 </script>
 

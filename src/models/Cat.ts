@@ -1,7 +1,7 @@
 export class Cat {
     public name: string
     public description: string
-    public imgUrl = 'https://cataas.com/cat/says/hello%20world!'
+    public imgUrl = 'https://cataas.com/cat/cute'
     public id: string
 
     constructor (name: string, description: string, id: string) {
@@ -17,9 +17,7 @@ export class Cat {
     public toFirestoreJson (payload: Cat) {
         return {
             name: payload.name,
-            description: payload.description,
-            imgUrl: payload.imgUrl
-
+            description: payload.description
         }
     }
 }
