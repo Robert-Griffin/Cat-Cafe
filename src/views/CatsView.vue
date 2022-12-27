@@ -2,10 +2,10 @@
     <div class="catCompoContainer">
         <h1>List of Cats</h1>
         <ul class="cardsList">
-            <div class="catCard" v-for="cat in returnedCats" :key="cat.id">
+            <div class="catCard" v-for="cat in cats" :key="cat.id">
                 <li class="card_item">
                     <div>
-                        <CatCompo :cat="cat"/>
+                        <CatComponent :cat="cat"/>
                     </div>
                 </li>
             </div>
@@ -14,18 +14,13 @@
 </template>
 
 <script lang="ts" setup>
-import CatCompo from '@/components/CatCompo.vue'
-import { Cat } from '@/models/Cat'
+import CatComponent from '@/components/CatComponent.vue'
 import { useGlobalStore } from '@/store/GlobalStore'
-import { computed } from 'vue'
 
 const store = useGlobalStore()
 store.getCats()
 
-const props = defineProps<{
-cats: Cat[]
-}>()
-const returnedCats = store.cats
+const cats = store.cats
 </script>
 
 <style>

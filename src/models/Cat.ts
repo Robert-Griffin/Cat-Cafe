@@ -1,13 +1,14 @@
 export class Cat {
     public name: string
     public description: string
-    public imgUrl = 'https://cataas.com/cat/cute'
+    public imgUrl: string
     public id: string
 
     constructor (name: string, description: string, id: string) {
         this.name = name
         this.description = description
         this.id = id
+        this.imgUrl = 'https://cataas.com/cat/cute'
     }
 
     public static fromJson (payload: any) {

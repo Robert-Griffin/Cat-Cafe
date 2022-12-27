@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory, Router, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CatsView from '../views/CatsView.vue'
+import MenuView from '../views/MenuView.vue'
+import ReservationsView from '../views/ReservationsView.vue'
+import ContactUsView from '../views/ContactUsView.vue'
 
 const routes = [
     {
@@ -13,6 +16,21 @@ const routes = [
         name: 'cats',
         component: CatsView,
         props: true
+    },
+    {
+        path: '/menu',
+        name: 'menu',
+        component: MenuView
+    },
+    {
+        path: '/reservations',
+        name: 'reservations',
+        component: ReservationsView
+    },
+    {
+        path: '/contact',
+    name: 'contactUs',
+        component: ContactUsView
     }
 ]
 
