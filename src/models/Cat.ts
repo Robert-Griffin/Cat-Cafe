@@ -1,18 +1,24 @@
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
 export class Cat {
     public name: string
     public description: string
     public imgUrl: string
+    public imgId: string
     public id: string
 
-    constructor (name: string, description: string, id: string) {
+    constructor (name: string, description: string, imgId: string, id: string) {
         this.name = name
         this.description = description
         this.id = id
-        this.imgUrl = 'https://cataas.com/cat/cute'
+        this.imgId = imgId
+        this.imgUrl = 'https://cataas.com/cat/' + imgId
     }
 
-    public static fromJson (payload: any) {
-        return new Cat(payload.name, payload.description, payload.id)
+    // How to cast unkown to an object. Try not to use 'any' as it basically disables typescript for that argument.
+    public static fromJson (payload: firebase.firestore.QueryDocumentSnapshot<Cat>) {
+        return new Cat(payload.data().name, payload.data().description, payload.data().imgId, payload.id)
     }
 
     public toFirestoreJson (payload: Cat) {

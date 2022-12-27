@@ -45,10 +45,7 @@ export class FirestoreService {
 
       query.forEach((doc) => {
       cats.push(
-        Cat.fromJson({
-          ...doc.data(),
-          id: doc.id
-        })
+        Cat.fromJson(doc)
       )
     })
     console.log(...cats)
