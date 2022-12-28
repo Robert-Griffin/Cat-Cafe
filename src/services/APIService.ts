@@ -1,4 +1,5 @@
 import { Cat } from '@/models/Cat'
+import { Reservation } from '@/models/Reservation'
 import { FirestoreService } from './FirestoreService'
 
 export class APIService {
@@ -8,15 +9,15 @@ export class APIService {
     this.firestoreService = firestoreService
   }
 
-  getTest () {
-    this.firestoreService.getTest()
-  }
-
   setNewCat () {
     this.firestoreService.createNewCat()
   }
 
   async getAllCats () {
     return await this.firestoreService.fetchAllCats()
+  }
+
+  createNewReservation (reservation: Reservation, collection: string) {
+    this.firestoreService.createNewReservation(reservation, collection)
   }
 }

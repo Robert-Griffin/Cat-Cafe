@@ -2,6 +2,7 @@ import { buildConfig } from './../config'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { Cat } from '@/models/Cat'
+import { Reservation } from '@/models/Reservation'
 
 const config = buildConfig(process.env)
 
@@ -16,15 +17,7 @@ export class FirestoreService {
     this.db = firestoreDatabase
   }
 
-  async getTest () {
-    const query = await this.db.collection('test').doc('abc').get()
-    console.log(query.data())
-    console.log({ ...query.data(), id: query.id })
-  }
-
   async createNewCat () {
-    // const batch = this.db.batch()
-
     this.db.collection('cats').doc().set({
       description: 'Cat # 2',
       name: 'George'
@@ -34,6 +27,16 @@ export class FirestoreService {
     })
     .catch((error) => {
       console.error('error writing document: ', error)
+    })
+  }
+
+  async createNewReservation (reservation: Reservation, collection: string) {
+    this.db.collection(collection).add(
+      Reservation.toFirestoreJson(reservation)
+    ).then((docRef) => {
+      console.log('Document written with ID: ', docRef.id)
+    }).catch((error) => {
+      console.error('error adding document: ', error)
     })
   }
 
