@@ -11,7 +11,6 @@ export const useGlobalStore = defineStore('global', {
   state: () => {
     return {
       cats: [] as Cat[]
-
     }
   },
   getters: {

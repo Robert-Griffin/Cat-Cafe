@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, Router, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CatsView from '../views/CatsView.vue'
 import MenuView from '../views/MenuView.vue'
@@ -29,7 +29,7 @@ const routes = [
     },
     {
         path: '/contact',
-    name: 'contactUs',
+        name: 'contactUs',
         component: ContactUsView
     }
 ]

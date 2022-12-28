@@ -27,7 +27,7 @@ import { Reservation } from '@/models/Reservation'
 import { useGlobalStore } from '@/store/GlobalStore'
 const store = useGlobalStore()
 const startDate = new Date()
-const reservation = new Reservation('123', 'Robert', 'griffin', 'bob@bob.com', '123-123-1234', startDate, startDate, startDate)
+const reservation = new Reservation('123', 'Robert', 'griffin', 'bob@bob.com', '123-123-1234', startDate)
 
 function saveReservation () {
   store.createNewReservation(reservation, 'reservations')
