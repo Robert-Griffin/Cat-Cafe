@@ -16,7 +16,6 @@ export class Cat {
         this.imgUrl = 'https://cataas.com/cat/' + imgId
     }
 
-    // How to cast unkown to an object. Try not to use 'any' as it basically disables typescript for that argument.
     public static fromJson (payload: firebase.firestore.QueryDocumentSnapshot<Cat>) {
         return new Cat(payload.data().name, payload.data().description, payload.data().imgId, payload.id)
     }

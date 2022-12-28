@@ -1,4 +1,3 @@
-import { Cat } from '@/models/Cat'
 import { Reservation } from '@/models/Reservation'
 import { FirestoreService } from './FirestoreService'
 

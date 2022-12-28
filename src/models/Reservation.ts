@@ -1,3 +1,6 @@
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
 export class Reservation {
     public id: string
     public firstName: string
@@ -19,8 +22,16 @@ export class Reservation {
         this.reservationEndTime = reservationEndTime
     }
 
-    public static fromJson (payload: any) {
-        return new Reservation(payload.id, payload.firstName, payload.lastName, payload.email, payload.phoneNumber, payload.reservationDate, payload.reservationStartTime, payload.reservationEndTime)
+    public static fromJson (payload: firebase.firestore.QueryDocumentSnapshot<Reservation>) {
+        return new Reservation(
+            payload.id,
+            payload.data().firstName,
+            payload.data().lastName,
+            payload.data().email,
+            payload.data().phoneNumber,
+            payload.data().reservationDate,
+            payload.data().reservationStartTime,
+            payload.data().reservationEndTime)
     }
 
     public static toFirestoreJson (payload: Reservation) {
