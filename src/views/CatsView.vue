@@ -6,6 +6,7 @@
                 <li class="card_item">
                     <div>
                         <CatComponent :cat="cat"/>
+                        <div>test</div>
                     </div>
                 </li>
             </div>
@@ -16,11 +17,14 @@
 <script lang="ts" setup>
 import CatComponent from '@/components/CatComponent.vue'
 import { useGlobalStore } from '@/store/GlobalStore'
+import { storeToRefs } from 'pinia'
 
+const storeRefs = storeToRefs(useGlobalStore())
 const store = useGlobalStore()
 store.getCats()
 
-const cats = store.cats
+const cats = storeRefs.cats
+
 </script>
 
 <style>

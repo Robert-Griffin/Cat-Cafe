@@ -8,7 +8,6 @@
                 <router-link :to="{ name: 'reservations'}">Reservations</router-link>
                 <router-link :to="{ name: 'contactUs'}">Contact Us</router-link>
             </ul>
-            <h1 class="logo">Navbar</h1>
         </div>
     </nav>
 </template>

@@ -30,9 +30,24 @@ export class FirestoreService {
     })
   }
 
+  async fetchReservationsByDate (date: string, collection: string): Promise<Reservation[]> {
+    const reservations: Reservation[] = []
+    const collectionRef = this.db.collection(collection)
+    const query = (await collectionRef.where('reservationDate', '==', date).get()) as firebase.firestore.QuerySnapshot<Reservation>
+    query.forEach((queryDocumentSnapshot) => {
+      console.log('queryDocumentSnapshot data: ', queryDocumentSnapshot.data())
+      console.log('queryDocumentSnapshot data.reservationTime: ', queryDocumentSnapshot.data().reservationTime)
+
+      reservations.push(
+        Reservation.fromJson(queryDocumentSnapshot))
+    })
+    return reservations
+  }
+
   async createNewReservation (reservation: Reservation, collection: string) {
-    this.db.collection(collection).add(
-      Reservation.toFirestoreJson(reservation)
+    const firestoreJsonObject = Reservation.toFirestoreJson(reservation)
+    console.log('Reservation Firestore JSON object in createNewReservation = ', firestoreJsonObject)
+    this.db.collection(collection).add(firestoreJsonObject
     ).then((docRef) => {
       console.log('Document written with ID: ', docRef.id)
     }).catch((error) => {

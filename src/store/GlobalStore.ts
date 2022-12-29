@@ -10,11 +10,11 @@ const apiService = new APIService(firestoreService)
 export const useGlobalStore = defineStore('global', {
   state: () => {
     return {
-      cats: [] as Cat[]
+      cats: [] as Cat[],
+      reservationsByDate: [] as Reservation[]
     }
   },
   getters: {
-
   },
   actions: {
     createCat () {
@@ -25,6 +25,9 @@ export const useGlobalStore = defineStore('global', {
     },
     createNewReservation (reservation: Reservation, collection: string) {
       apiService.createNewReservation(reservation, collection)
+    },
+    async fetchReservationsByDate (date: string, collection: string) {
+      this.reservationsByDate = await apiService.fetchReservationsByDate(date, collection)
     }
   }
 })
