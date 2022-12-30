@@ -26,8 +26,8 @@ export const useGlobalStore = defineStore('global', {
     createNewReservation (reservation: Reservation, collection: string) {
       apiService.createNewReservation(reservation, collection)
     },
-    async fetchReservationsByDate (date: string, collection: string) {
-      this.reservationsByDate = await apiService.fetchReservationsByDate(date, collection)
+    async fetchReservationsByDate (date: Date, collection: string) {
+      return apiService.fetchReservationsByDate(date, collection)
     }
   }
 })

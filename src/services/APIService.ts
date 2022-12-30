@@ -20,7 +20,7 @@ export class APIService {
     this.firestoreService.createNewReservation(reservation, collection)
   }
 
-  async fetchReservationsByDate (date: string, collection: string) {
+  async fetchReservationsByDate (date: Date, collection: string) {
     return await this.firestoreService.fetchReservationsByDate(date, collection)
   }
 }

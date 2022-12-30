@@ -7,17 +7,15 @@ export class Reservation {
     public lastName: string
     public email: string
     public phoneNumber: string
-    public reservationDate: string
-    public reservationTime: number
+    public reservationDate: Date
 
-    constructor (firstName: string, lastName: string, email: string, phoneNumber: string, reservationDate: string, reservationTime: number, id?: string) {
+    constructor (firstName: string, lastName: string, email: string, phoneNumber: string, reservationDate: Date, id?: string) {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
         this.email = email
         this.phoneNumber = phoneNumber
         this.reservationDate = reservationDate
-        this.reservationTime = reservationTime
     }
 
     public static fromJson (payload: firebase.firestore.QueryDocumentSnapshot<Reservation>) {
@@ -27,20 +25,18 @@ export class Reservation {
             payload.data().email,
             payload.data().phoneNumber,
             payload.data().reservationDate,
-            payload.data().reservationTime,
             payload.id
             )
     }
 
     public static toFirestoreJson (payload: Reservation) {
-        console.log('in toFirestoreJson, payload.reservationTime is ', payload.reservationTime)
+        console.log('in toFirestoreJson, payload.reservationTime is ', payload.reservationDate)
         return {
             firstName: payload.firstName,
             lastName: payload.lastName,
             email: payload.email,
             phoneNumber: payload.phoneNumber,
-            reservationDate: payload.reservationDate,
-            reservationTime: payload.reservationTime
+            reservationDate: payload.reservationDate
         }
     }
 }
