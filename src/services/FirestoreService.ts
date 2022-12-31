@@ -35,9 +35,6 @@ export class FirestoreService {
     const collectionRef = this.db.collection(collection)
     const query = (await collectionRef.where('reservationDate', '==', date).get()) as firebase.firestore.QuerySnapshot<Reservation>
     query.forEach((queryDocumentSnapshot) => {
-      console.log('queryDocumentSnapshot data: ', queryDocumentSnapshot.data())
-      // console.log('queryDocumentSnapshot data.reservationTime: ', queryDocumentSnapshot.data().reservationTime)
-
       reservations.push(
         Reservation.fromJson(queryDocumentSnapshot))
     })
@@ -46,7 +43,6 @@ export class FirestoreService {
 
   async createNewReservation (reservation: Reservation, collection: string) {
     const firestoreJsonObject = Reservation.toFirestoreJson(reservation)
-    console.log('Reservation Firestore JSON object in createNewReservation = ', firestoreJsonObject)
     this.db.collection(collection).add(firestoreJsonObject
     ).then((docRef) => {
       console.log('Document written with ID: ', docRef.id)
@@ -66,7 +62,6 @@ export class FirestoreService {
         Cat.fromJson(doc)
       )
     })
-    console.log(...cats)
     return cats
   } catch (error) {
     return Promise.reject(error)

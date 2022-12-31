@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<script setup lang="ts">import { computed, ref } from 'vue'
+<script setup lang="ts">import { computed } from 'vue'
 
 const props = defineProps({
     labelValue: {
@@ -23,8 +23,5 @@ const props = defineProps({
 })
 const meridiem = computed(() => {
     return props.labelValue === 8 || props.labelValue === 10 ? 'am' : 'pm'
-})
-const updateIsChecked = computed(() => {
-    return props.disabledTimeslot && props.isChecked ? true : false
 })
 </script>

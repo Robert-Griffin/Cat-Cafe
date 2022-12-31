@@ -30,7 +30,6 @@ export class Reservation {
     }
 
     public static toFirestoreJson (payload: Reservation) {
-        console.log('in toFirestoreJson, payload.reservationTime is ', payload.reservationDate)
         return {
             firstName: payload.firstName,
             lastName: payload.lastName,
