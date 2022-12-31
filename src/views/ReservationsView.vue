@@ -36,15 +36,7 @@
         <div>
           <ul>
             <li v-for="timeslot in timeSlotOptions" :key="timeslot.startTime">
-              <label>{{timeslot.startTime}}</label>
-              <input type="radio" v-model="picked" :disabled="timeslot.disabled" :value="timeslot.startTime" :checked="picked == timeslot.startTime">
-            </li>
-          </ul>
-        </div>
-        <div>
-          <ul>
-            <li>
-              <InputRadio />
+              <InputRadio v-model="picked" :label-value="timeslot.startTime" :disabled-timeslot="timeslot.disabled"/>
             </li>
           </ul>
         </div>
@@ -89,7 +81,6 @@ const updateTimeslotOptions = async () => {
       disabled: existingReservation.length > 0
     }
   }))
-  console.log(timeSlotOptions.value)
 }
 
 const handleDateUpdate = async (modelData: Date) => {
@@ -116,7 +107,12 @@ function createReservation () {
   const reservationDate = formatDateToStringDateTime(date.value, picked.value)
   const reservation = new Reservation(firstName.value, lastName.value, email.value, phoneNumber.value, reservationDate)
   store.createNewReservation(reservation, 'reservations')
+  updateTimeslotOptions()
 }
 </script>
 
-<style></style>
+<style>
+ul {
+  list-style: none
+}
+</style>
