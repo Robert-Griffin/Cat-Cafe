@@ -6,8 +6,6 @@
       pariatur velit ex facilis magnam impedit laborum fugit sequi veniam! Eum
       enim sunt nemo repudiandae dolor.
     </p>
-    <br>
-    <button @click="createReservation">Save Reservation</button>
   </div>
   <div class="openReservations">
     <h4>Open Reservations</h4>
@@ -18,7 +16,7 @@
     </p>
     <br>
     <div>
-      <form @submit.prevent="createReservation">
+      <form @submit="createReservation">
         <div>
           <DatePicker :value="date" @update:model-value="handleDateUpdate" :enable-time-picker="false" :formatDateToString="formatDateToString" :min-date="new Date()" inline text-input inline-with-input auto-apply></DatePicker>
         </div>
@@ -64,6 +62,7 @@ const phoneNumber = ref('')
 const email = ref('')
 const pickedTimeslot = ref(8)
 const date = ref(new Date())
+const collection = 'reservations'
 
 const timeSlotOptions: Ref<ITimeslotOption[]> = ref([])
 
@@ -75,7 +74,7 @@ const updateTimeslotOptions = async () => {
   timeSlotOptions.value = await Promise.all(timeslots.map(async (value: ITimeslot) => {
     const justDate = new Date(date.value.toDateString())
     justDate.setHours(value.startTime)
-    const existingReservation = await store.fetchReservationsByDate(justDate, 'reservations')
+    const existingReservation = await store.fetchReservationsByDate(justDate, collection)
     return {
       ...value,
       disabled: existingReservation.length > 0
@@ -113,7 +112,7 @@ const formatDateToStringDateTime = (date: Date, reservationTime: number): Date =
 function createReservation () {
   const reservationDate = formatDateToStringDateTime(date.value, pickedTimeslot.value)
   const reservation = new Reservation(firstName.value, lastName.value, email.value, phoneNumber.value, reservationDate)
-  store.createNewReservation(reservation, 'reservations')
+  store.createNewReservation(reservation, collection)
   updateTimeslotOptions()
 }
 </script>

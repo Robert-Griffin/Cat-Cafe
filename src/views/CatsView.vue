@@ -6,7 +6,6 @@
                 <li class="card_item">
                     <div>
                         <CatComponent :cat="cat"/>
-                        <div>test</div>
                     </div>
                 </li>
             </div>

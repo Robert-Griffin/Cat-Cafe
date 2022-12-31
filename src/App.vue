@@ -2,11 +2,6 @@
   <header>
     <NavBar />
   </header>
-  <section>
-    <div>
-    </div>
-  </section>
-
   <RouterView/>
 </template>
 
