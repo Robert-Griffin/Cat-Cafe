@@ -5,7 +5,7 @@
             <div class="catCard" v-for="cat in cats" :key="cat.id">
                 <li class="card_item">
                     <div>
-                        <CatComponent :cat="cat"/>
+                        <CatComponent :cat="cat" />
                     </div>
                 </li>
             </div>
@@ -23,32 +23,31 @@ const store = useGlobalStore()
 store.getCats()
 
 const cats = storeRefs.cats
-
 </script>
 
 <style>
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  background-color: #ecf9ff;
+    background-color: #ecf9ff;
 }
 
 body {
-  color: #272727;
-  font-family: 'Quicksand', serif;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0;
-  padding: 1rem;
+    color: #272727;
+    font-family: 'Quicksand', serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0;
+    padding: 1rem;
 }
 
-.main{
-  max-width: 1200px;
-  margin: 0 auto;
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -57,26 +56,26 @@ h1 {
     text-align: center;
 }
 .cardsList {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .cards_item {
-  display: flex;
-  padding: 1rem;
+    display: flex;
+    padding: 1rem;
 }
 @media (min-width: 40rem) {
-  .cards_item {
-    width: 50%;
-  }
+    .cards_item {
+        width: 50%;
+    }
 }
 
 @media (min-width: 56rem) {
-  .cards_item {
-    width: 33.3333%;
-  }
+    .cards_item {
+        width: 33.3333%;
+    }
 }
 </style>

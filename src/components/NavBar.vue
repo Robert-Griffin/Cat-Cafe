@@ -3,7 +3,7 @@
         <div class="navbar-container">
             <ul class="list">
                 <li v-for="route in routeLinks" :key="route.path">
-                    <router-link :to="{ name: route.path}">{{route.label}}</router-link>
+                    <router-link :to="{ name: route.path }">{{ route.label }}</router-link>
                 </li>
             </ul>
         </div>
@@ -14,16 +14,17 @@
 const routeLinks = [
     {
         path: 'home',
-        label: 'Home'
+        label: 'Home',
     },
     {
         path: 'cats',
-        label: 'Cats'
+        label: 'Cats',
     },
     {
         path: 'reservations',
-        label: 'Reservations'
-    }]
+        label: 'Reservations',
+    },
+]
 </script>
 
 <style>

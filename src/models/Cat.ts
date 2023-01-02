@@ -8,7 +8,7 @@ export class Cat {
     public imgId: string
     public id: string
 
-    constructor (name: string, description: string, imgId: string, id: string) {
+    constructor(name: string, description: string, imgId: string, id: string) {
         this.name = name
         this.description = description
         this.id = id
@@ -16,14 +16,14 @@ export class Cat {
         this.imgUrl = 'https://cataas.com/cat/' + imgId
     }
 
-    public static fromJson (payload: firebase.firestore.QueryDocumentSnapshot<Cat>) {
+    public static fromJson(payload: firebase.firestore.QueryDocumentSnapshot<Cat>) {
         return new Cat(payload.data().name, payload.data().description, payload.data().imgId, payload.id)
     }
 
-    public toFirestoreJson (payload: Cat) {
+    public toFirestoreJson(payload: Cat) {
         return {
             name: payload.name,
-            description: payload.description
+            description: payload.description,
         }
     }
 }

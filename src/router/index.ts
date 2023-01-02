@@ -7,24 +7,24 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: HomeView
+        component: HomeView,
     },
     {
         path: '/cats',
         name: 'cats',
         component: CatsView,
-        props: true
+        props: true,
     },
     {
         path: '/reservations',
         name: 'reservations',
-        component: ReservationsView
-    }
+        component: ReservationsView,
+    },
 ]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes
+    routes,
 })
 
 export default router
