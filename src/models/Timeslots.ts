@@ -16,9 +16,9 @@ export const timeslots: ITimeslot[] = [
         startTime: 12
     },
     {
-        startTime: 2
+        startTime: 14
     },
     {
-        startTime: 4
+        startTime: 16
     }
 ]

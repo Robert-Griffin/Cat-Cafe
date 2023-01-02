@@ -1,54 +1,65 @@
 <template>
-  <div class="aboutReservations">
-    <h3>How our reservations work</h3>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-      pariatur velit ex facilis magnam impedit laborum fugit sequi veniam! Eum
-      enim sunt nemo repudiandae dolor.
-    </p>
-  </div>
-  <div class="openReservations">
-    <h4>Open Reservations</h4>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio odio,
-      eligendi blanditiis consequuntur, nulla modi ratione fugit ducimus eveniet
-      itaque exercitationem?
-    </p>
-    <br>
-    <div>
-      <form @submit="createReservation">
-        <div>
-          <DatePicker :value="date" @update:model-value="handleDateUpdate" :enable-time-picker="false" :formatDateToString="formatDateToString" :min-date="new Date()" inline text-input inline-with-input auto-apply></DatePicker>
-        </div>
-        <label>First Name:</label>
-        <input type="text" required placeholder="Doug" v-model="firstName">
-
-        <label>Last Name:</label>
-        <input type="text" required placeholder="Dimmadome" v-model="lastName">
-
-        <label>Phone Number:</label>
-        <input type="text" required placeholder="(555)-867-5309" v-model="phoneNumber">
-
-        <label>Email:</label>
-        <input type="email" required placeholder="Email Address" v-model="email">
-        <div>
-          <ul>
-            <li v-for="timeslot in timeSlotOptions" :key="timeslot.startTime">
-              <InputRadio v-model="pickedTimeslot" :label-value="timeslot.startTime" :disabled-timeslot="timeslot.disabled"/>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <button type="submit">Create Reservation</button>
-        </div>
-      </form>
+    <div class="aboutReservations">
+        <h3>How our reservations work</h3>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur pariatur velit ex facilis magnam
+            impedit laborum fugit sequi veniam! Eum enim sunt nemo repudiandae dolor.
+        </p>
     </div>
-  </div>
+    <div class="openReservations">
+        <h4>Open Reservations</h4>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio odio, eligendi blanditiis consequuntur,
+            nulla modi ratione fugit ducimus eveniet itaque exercitationem?
+        </p>
+        <br />
+        <div>
+            <div>
+                <DatePicker
+                    v-model="date"
+                    :clearable="false"
+                    :enable-time-picker="false"
+                    :format-date-to-string="formatDateToString"
+                    :min-date="new Date()"
+                    inline
+                    text-input
+                    inline-with-input
+                    auto-apply
+                    @update:model-value="handleDateUpdate"
+                ></DatePicker>
+            </div>
+            <label>First Name:</label>
+            <input v-model="firstName" type="text" required placeholder="Bob" />
+
+            <label>Last Name:</label>
+            <input v-model="lastName" type="text" required placeholder="Smith" />
+
+            <label>Phone Number:</label>
+            <input v-model="phoneNumber" type="text" required placeholder="(555)-123-4567" />
+
+            <label>Email:</label>
+            <input v-model="email" type="email" required placeholder="Bsmith@domain.com" />
+            <div>
+                <ul>
+                    <li v-for="timeslot in timeSlotOptions" :key="timeslot.startTime">
+                        <InputRadio
+                            v-model="pickedTimeslot"
+                            :hours="timeslot.startTime"
+                            :disabled-timeslot="timeslot.disabled"
+                            :is-checked="isChecked(timeslot)"
+                        />
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <button @click="createReservation">Create Reservation</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-
 import { Reservation } from '@/models/Reservation'
 import { ITimeslot, ITimeslotOption, timeslots } from '@/models/Timeslots'
 import { useGlobalStore } from '@/store/GlobalStore'
@@ -67,58 +78,79 @@ const collection = 'reservations'
 const timeSlotOptions: Ref<ITimeslotOption[]> = ref([])
 
 onMounted(async () => {
-  await updateTimeslotOptions()
+    await updateTimeslotOptions()
 })
 
 const updateTimeslotOptions = async () => {
-  timeSlotOptions.value = await Promise.all(timeslots.map(async (value: ITimeslot) => {
-    const justDate = new Date(date.value.toDateString())
-    justDate.setHours(value.startTime)
-    const existingReservation = await store.fetchReservationsByDate(justDate, collection)
-    return {
-      ...value,
-      disabled: existingReservation.length > 0
-    }
-  }))
-  updatePickedTimeslot()
+    timeSlotOptions.value = await Promise.all(
+        timeslots.map(async (value: ITimeslot) => {
+            const dateWithReservationTime = new Date(date.value.toDateString())
+            dateWithReservationTime.setHours(value.startTime)
+            const existingReservation = await store.fetchReservationsByDate(dateWithReservationTime, collection)
+            return {
+                ...value,
+                disabled: existingReservation.length > 0,
+            }
+        })
+    )
+    updatePickedTimeslot()
 }
 
 const updatePickedTimeslot = () => {
-  for (let index = timeSlotOptions.value.length - 1; index >= 0; index--) {
-    if (!timeSlotOptions.value[index].disabled) pickedTimeslot.value = timeSlotOptions.value[index].startTime
-  }
+    for (let index = timeSlotOptions.value.length - 1; index >= 0; index--) {
+        if (!timeSlotOptions.value[index].disabled) {
+            pickedTimeslot.value = timeSlotOptions.value[index].startTime
+        }
+    }
 }
 
-const handleDateUpdate = async (modelData: Date) => {
-date.value = modelData
-await updateTimeslotOptions()
+const isChecked = (timeslot: ITimeslot) => {
+    return timeslot.startTime === pickedTimeslot.value
+}
+
+const handleDateUpdate = async () => {
+    console.log('handleDateUpdate is happening', date.value)
+
+    await updateTimeslotOptions()
 }
 
 const formatDateToString = (date: Date): string => {
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            return `${month}/${day}/${year}`
-        }
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    return `${month}/${day}/${year}`
+}
 
-const formatDateToStringDateTime = (date: Date, reservationTime: number): Date => {
-            const day = date.getDate()
-            const month = date.getMonth()
-            const year = date.getFullYear()
-            const time = reservationTime
-            return new Date(year, month, day, time)
-        }
+const createReservation = () => {
+    const reservationDate = date.value
+    console.log('reservationDate aka date.value is ', reservationDate)
 
-function createReservation () {
-  const reservationDate = formatDateToStringDateTime(date.value, pickedTimeslot.value)
-  const reservation = new Reservation(firstName.value, lastName.value, email.value, phoneNumber.value, reservationDate)
-  store.createNewReservation(reservation, collection)
-  updateTimeslotOptions()
+    reservationDate.setHours(pickedTimeslot.value, 0, 0, 0)
+    const reservation = new Reservation(
+        firstName.value,
+        lastName.value,
+        email.value,
+        phoneNumber.value,
+        reservationDate
+    )
+    store.createNewReservation(reservation, collection)
+    console.log('Reservation is ', reservationDate, reservation)
+
+    updateTimeslotOptions()
+    clearForm()
+}
+
+const clearForm = () => {
+    firstName.value = ''
+    lastName.value = ''
+    phoneNumber.value = ''
+    email.value = ''
+    date.value = new Date()
 }
 </script>
 
 <style>
 ul {
-  list-style: none
+    list-style: none;
 }
 </style>

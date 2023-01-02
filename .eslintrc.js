@@ -1,20 +1,19 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true
-  },
-  extends: [
-    'plugin:vue/vue3-essential',
-    '@vue/standard',
-    '@vue/typescript/recommended'
-  ],
-  parserOptions: {
-    ecmaVersion: 2020
-  },
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    indent: 'off',
-    'no-unneeded-ternary': 'off'
-  }
+    root: true,
+    env: {
+        browser: true,
+        node: true,
+    },
+    extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'prettier', '@vue/typescript/recommended'],
+    plugins: ['prettier'],
+    rules: {
+        'prettier/prettier': ['error'],
+        'vue/require-default-prop': 0,
+        'vue/html-indent': ['error', 4],
+        'vue/singleline-html-element-content-newline': 0,
+        'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+    },
+    globals: {
+        _: true,
+    },
 }

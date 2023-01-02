@@ -1,23 +1,34 @@
 <template>
     <nav class="navbar">
         <div class="navbar-container">
-            <ul class="menu-items">
-                <router-link :to="{ name: 'home'}">Home</router-link>
-                <router-link :to="{ name: 'cats'}">Cats</router-link>
-                <router-link :to="{ name: 'menu'}">Menu</router-link>
-                <router-link :to="{ name: 'reservations'}">Reservations</router-link>
-                <router-link :to="{ name: 'contactUs'}">Contact Us</router-link>
+            <ul class="list">
+                <li v-for="route in routeLinks" :key="route.path">
+                    <router-link :to="{ name: route.path}">{{route.label}}</router-link>
+                </li>
             </ul>
         </div>
     </nav>
 </template>
 
 <script setup lang="ts">
-
+const routeLinks = [
+    {
+        path: 'home',
+        label: 'Home'
+    },
+    {
+        path: 'cats',
+        label: 'Cats'
+    },
+    {
+        path: 'reservations',
+        label: 'Reservations'
+    }]
 </script>
 
 <style>
-.menu-items a{
+.list li {
+    display: inline;
     padding: 5px;
 }
 </style>
