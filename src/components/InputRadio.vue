@@ -1,13 +1,14 @@
 <template>
-    <div>
+    <div class="flex w-24">
         <label>{{ timeLabel }}</label>
         <input
+            class="ml-auto"
             name="timeslot"
             type="radio"
             :value="hours"
-            @click="$emit('update:modelValue', hours)"
             :disabled="disabledTimeslot"
             :checked="isChecked"
+            @click="$emit('update:modelValue', hours)"
         />
     </div>
 </template>

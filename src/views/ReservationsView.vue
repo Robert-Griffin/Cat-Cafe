@@ -1,59 +1,71 @@
 <template>
-    <div class="aboutReservations">
-        <h3>How our reservations work</h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur pariatur velit ex facilis magnam
-            impedit laborum fugit sequi veniam! Eum enim sunt nemo repudiandae dolor.
-        </p>
-    </div>
     <div class="openReservations">
-        <h4>Open Reservations</h4>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio odio, eligendi blanditiis consequuntur,
-            nulla modi ratione fugit ducimus eveniet itaque exercitationem?
-        </p>
+        <h1>Create Reservation</h1>
         <br />
-        <div>
-            <div>
+        <div class="flex flex-col">
+            <div class="">
+                <label>First Name:</label>
+                <input
+                    v-model="firstName"
+                    class="min-w-0 p-1 ml-1 mr-1 text-right bg-gray-200 rounded"
+                    type="text"
+                    placeholder="Bob"
+                />
+
+                <label class="ml-3">Last Name:</label>
+                <input
+                    v-model="lastName"
+                    class="min-w-0 p-1 ml-1 mr-1 text-right bg-gray-200 rounded"
+                    type="text"
+                    placeholder="Smith"
+                />
+
+                <label class="ml-3">Phone Number:</label>
+                <input
+                    v-model="phoneNumber"
+                    class="min-w-0 p-1 ml-1 mr-1 text-right bg-gray-200 rounded"
+                    type="text"
+                    placeholder="(555)-123-4567"
+                />
+
+                <label class="ml-3">Email:</label>
+                <input
+                    v-model="email"
+                    class="min-w-0 p-1 ml-1 mr-1 text-right bg-gray-200 rounded"
+                    type="email"
+                    placeholder="Bsmith@domain.com"
+                />
+            </div>
+            <div class="flex justify-center m-8">
                 <DatePicker
                     v-model="date"
+                    class="pr-10"
                     :clearable="false"
                     :enable-time-picker="false"
-                    :format-date-to-string="formatDateToString"
                     :min-date="new Date()"
                     inline
-                    text-input
-                    inline-with-input
+                    hide-input-icon
                     auto-apply
                     @update:model-value="handleDateUpdate"
                 ></DatePicker>
+
+                <div class="pl-10">
+                    <ul>
+                        <li v-for="timeslot in timeSlotOptions" :key="timeslot.startTime">
+                            <InputRadio
+                                v-model="pickedTimeslot"
+                                :hours="timeslot.startTime"
+                                :disabled-timeslot="timeslot.disabled"
+                                :is-checked="isChecked(timeslot)"
+                            />
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <label>First Name:</label>
-            <input v-model="firstName" type="text" required placeholder="Bob" />
-
-            <label>Last Name:</label>
-            <input v-model="lastName" type="text" required placeholder="Smith" />
-
-            <label>Phone Number:</label>
-            <input v-model="phoneNumber" type="text" required placeholder="(555)-123-4567" />
-
-            <label>Email:</label>
-            <input v-model="email" type="email" required placeholder="Bsmith@domain.com" />
             <div>
-                <ul>
-                    <li v-for="timeslot in timeSlotOptions" :key="timeslot.startTime">
-                        <InputRadio
-                            v-model="pickedTimeslot"
-                            :hours="timeslot.startTime"
-                            :disabled-timeslot="timeslot.disabled"
-                            :is-checked="isChecked(timeslot)"
-                        />
-                    </li>
-                </ul>
-            </div>
-
-            <div>
-                <button @click="createReservation">Create Reservation</button>
+                <button class="p-2 font-bold text-white bg-blue-700 rounded" @click="createReservation">
+                    Create Reservation
+                </button>
             </div>
         </div>
     </div>
@@ -83,12 +95,12 @@ onMounted(async () => {
 
 const updateTimeslotOptions = async () => {
     timeSlotOptions.value = await Promise.all(
-        timeslots.map(async (value: ITimeslot) => {
+        timeslots.map(async (timeslotValue: ITimeslot) => {
             const dateWithReservationTime = new Date(date.value.toDateString())
-            dateWithReservationTime.setHours(value.startTime)
+            dateWithReservationTime.setHours(timeslotValue.startTime)
             const existingReservation = await store.fetchReservationsByDate(dateWithReservationTime, collection)
             return {
-                ...value,
+                ...timeslotValue,
                 disabled: existingReservation.length > 0,
             }
         })
@@ -112,13 +124,6 @@ const handleDateUpdate = async () => {
     console.log('handleDateUpdate is happening', date.value)
 
     await updateTimeslotOptions()
-}
-
-const formatDateToString = (date: Date): string => {
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-    return `${month}/${day}/${year}`
 }
 
 const createReservation = () => {
@@ -149,8 +154,4 @@ const clearForm = () => {
 }
 </script>
 
-<style>
-ul {
-    list-style: none;
-}
-</style>
+<style></style>
